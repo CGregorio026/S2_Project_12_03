@@ -27,19 +27,30 @@
       information for the donor
       
 */
-// displays the donor table to the id of the div set earlier in the document
-document.getElementById("donorTable").innerHTML = donorTable;
 // creates a variable list the donation total at 0, but allowing it to change later
-var donationTotal = 0
+var donationTotal = 0;
 // uses the forEach method for each element in the donors array
-donors.forEach(calcSum());
+donors.forEach(calcSum);
 
-var summaryTable = "<table> <tr><th>Donors</th><td> donors </td></tr> <tr> <th>TotalDonations</th> <td>$total</td> </tr> </table>"
+// store the code for the donors to dynamically write html
+var summaryTable = "<table> <tr><th> Donors </th><td>" + donors.length + "</td></tr> <tr> <th>TotalDonations</th> <td>$" + donationTotal.toLocaleString() + "</td></tr></table>";
 
+document.getElementById("donationSummary").innerHTML = summaryTable;
 
+// filters the donors array to find those who have donated more than 1000
+var majorDonors = donors.filter(findMajorDonors);
+// sorts the major donors array in ascending order
+majorDonors.sort(donorSortDescending);
+// Stores HTML code for the donors
+var donorTable = "<table> <caption>Major Donors</caption> <tr> <th>Donation</th><th>Donor ID</th> <th>Date</th><th>Name</th><th>Address</th> <th>Phone</th><th>E-mail</th> </tr>";
+// writes the table by itself by applying it to each of the donors listed
+majorDonors.forEach(writeDonorRow);
+// finishes the table
+donorTable += "</table>";
+// displays the donor table in the HTML code.
+document.getElementById("donorTable").innerHTML = donorTable;
 
-
-
+// prewritten, do not change
 function calcSum(donorAmt) {
       donationTotal += donorAmt[9];
 }
